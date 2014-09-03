@@ -12,6 +12,12 @@ class Personaje {
     private $descripcion;
 
     const TABLA = 'personaje';
+    
+    public function __construct($nombre=null, $descipcion=null, $id=null) {
+        $this->nombre = $nombre;
+        $this->descripcion = $descipcion; 
+       $this->id = $id;
+    }
 
     public function getId() {
         return $this->id;
@@ -31,12 +37,6 @@ class Personaje {
 
     public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
-    }
-
-    public function __construct($nombre, $descipcion, $id = null) {
-        $this->nombre = $nombre;
-        $this->descripcion = $descipcion;
-        $this->id = $id;
     }
 
     public function guardar() {
@@ -62,6 +62,7 @@ class Personaje {
         $consulta = $conexion->prepare('DELETE FROM ' . self::TABLA . ' WHERE id = :id');
         $consulta->bindParam(':id', $this->id);
         $consulta->execute();
+        $conexion = null;
     }
 
     public static function buscarPorId($id) {
@@ -70,6 +71,7 @@ class Personaje {
         $consulta->bindParam(':id', $id);
         $consulta->execute();
         $registro = $consulta->fetch();
+        $conexion = null;
         if ($registro) {
             return new self($registro['nombre'], $registro['descripcion'], $id);
         } else {
@@ -82,6 +84,7 @@ class Personaje {
         $consulta = $conexion->prepare('SELECT id, nombre, descripcion FROM ' . self::TABLA . ' ORDER BY nombre');
         $consulta->execute();
         $registros = $consulta->fetchAll();
+        $conexion = null;
         return $registros;
     }
 
