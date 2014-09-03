@@ -9,7 +9,7 @@
     if($personaje_id){        
         $personaje = Personaje::buscarPorId($personaje_id);        
     }else{
-        $personaje = new Personaje(null, null);
+        $personaje = new Personaje();
     }
     
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
